@@ -315,8 +315,8 @@ $.getJSON(uploadedDataURL, function(geoJson) {
           areaColor: 'black'
         }
       },
-      center: [113.5107, 23.2196],
-      zoom: 7,
+      // center: [113.5107, 23.2196],
+      // zoom: 1,
 
 
     },
