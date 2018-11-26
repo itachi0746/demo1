@@ -131,17 +131,18 @@ $.getJSON(uploadedDataURL, function(geoJson) {
     '茂名': [110.931541,21.669064],
   };
 
-  var BJData = [
-    [{name:'北京'}, {name:'上海',value:95}],
-    [{name:'北京'}, {name:'广州',value:90}],
-    [{name:'北京'}, {name:'西宁',value:80}],
-    [{name:'北京'}, {name:'南宁',value:70}],
-    [{name:'北京'}, {name:'南昌',value:60}],
-    [{name:'北京'}, {name:'拉萨',value:50}],
-    [{name:'北京'}, {name:'天津',value:40}],
-    [{name:'北京'}, {name:'乌鲁木齐',value:30}],
-    [{name:'北京'}, {name:'厦门',value:20}],
-    [{name:'北京'}, {name:'常州',value:10}]
+  var SZData = [
+    [{ name: "深圳" }, { name: "东莞", value: 95 }],
+    [{ name: "深圳" }, { name: "江门", value: 90 }],
+    [{ name: "深圳" }, { name: "珠海", value: 80 }],
+    [{ name: "深圳" }, { name: "佛山", value: 70 }],
+    [{ name: "深圳" }, { name: "惠州", value: 60 }],
+    [{ name: "深圳" }, { name: "汕头", value: 50 }],
+    [{ name: "深圳" }, { name: "深圳", value: 40 }],
+    [{ name: "深圳" }, { name: "湛江", value: 30 }],
+    [{ name: "深圳" }, { name: "韶关", value: 20 }],
+    [{ name: "深圳" }, { name: "茂名", value: 10 }],
+    [{ name: "深圳" }, { name: "深圳", value: 10 }],
   ];
 
   var SHData = [
@@ -166,7 +167,8 @@ $.getJSON(uploadedDataURL, function(geoJson) {
     [{ name: "广州" }, { name: "深圳", value: 40 }],
     [{ name: "广州" }, { name: "湛江", value: 30 }],
     [{ name: "广州" }, { name: "韶关", value: 20 }],
-    [{ name: "广州" }, { name: "茂名", value: 10 }]
+    [{ name: "广州" }, { name: "茂名", value: 10 }],
+    [{ name: "广州" }, { name: "广州", value: 10 }],
   ];
   var planePath = 'path://M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705.06,1318.313z';
 
@@ -193,14 +195,14 @@ $.getJSON(uploadedDataURL, function(geoJson) {
   var series = [];
 
 // ['北京', BJData], ['上海', SHData],
-  [['广州', GZData]].forEach(function (item, i) {
+  [['广州', GZData],['深圳',SZData]].forEach(function (item, i) {
     // debugger
     series.push({
         name: item[0] + ' Top10',
-        type: 'lines',
+        type: 'lines',  //静态线
         zlevel: 1,
         effect: {
-          show: true,
+          show: false,
           period: 6,
           trailLength: 0.7,
           color: '#fff',
@@ -209,7 +211,7 @@ $.getJSON(uploadedDataURL, function(geoJson) {
         lineStyle: {
           normal: {
             color: color[i],
-            width: 0,
+            width: 1,
             curveness: 0.2
           }
         },
@@ -217,29 +219,71 @@ $.getJSON(uploadedDataURL, function(geoJson) {
       },
       {
         name: item[0] + ' Top10',
-        type: 'lines',
+        type: 'lines',  //动态线
         zlevel: 2,
         effect: {
-          //show: true,
-          //period: 6,
-          //trailLength: 0,
-          //symbol: planePath,
-          //symbolSize: 55
+          show: true,
+          period: 6,
+          trailLength: 0.7,
+          color: '#fff',
+          symbol: 'arrow',
+          symbolSize: 5,
+          // shadowBlur: 10,
         },
         lineStyle: {
           normal: {
             color: color[i],
             width: 1,
-            opacity: 0.4,
-            curveness: 0.2
+            opacity: 0.5,
+            curveness: 0.2,
+            type: 'solid',
+            // shadowBlur: 5,
+            // shadowColor: color[i],
           }
         },
+        // emphasis: {
+        //   lineStyle: {
+        //     color: {
+        //       type: 'linear',
+        //       x: 0,
+        //       y: 0,
+        //       x2: 0,
+        //       y2: 1,
+        //       colorStops: [{
+        //           offset: 0, color: 'red' // 0% 处的颜色
+        //       }, {
+        //           offset: 1, color: 'blue' // 100% 处的颜色
+        //       }],
+        //       globalCoord: false // 缺省为 false
+        //     }
+        //   }
+        // },
+        symbol: ['none', 'arrow'],
+        symbolSize: 10,
         data: convertData(item[1]),
 
       },
       {
         name: item[0] + ' Top10',
         type: 'effectScatter',
+        // symbol:'emptyCircle',
+        // markPoint: {
+        //   symbol: 'circle',
+        //   data: [
+        //     {
+        //       name: '某个坐标',
+        //       coord: [110.365554,21.276724],
+        //       value:965,
+
+        //     }
+        //   ]
+        // },
+      //   animationDelayUpdate: function (idx) {
+      //     return 1000;
+      // },
+        effectType: 'ripple',
+
+        hoverAnimation: true,
         coordinateSystem: 'geo',
         zlevel: 2,
         rippleEffect: {
@@ -257,7 +301,9 @@ $.getJSON(uploadedDataURL, function(geoJson) {
         },
         itemStyle: {
           normal: {
-            color: color[i]
+            color: color[i],
+            shadowBlur: 10,
+            shadowColor: '#333'
           }
         },
         data: item[1].map(function (dataItem) {
@@ -300,9 +346,10 @@ $.getJSON(uploadedDataURL, function(geoJson) {
     geo: {
 
       map: 'gd',
+      //鼠标移入是否显示省份/城市
       label: {
         emphasis: {
-          show: false
+          show: true
         }
       },
       roam: true,

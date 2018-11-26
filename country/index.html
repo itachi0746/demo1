@@ -45,6 +45,7 @@
         var myChart2 = ec.init(document.getElementById('mainMap'));
         myChart2.setOption({
           dataRange: {
+            show: false,
             min : 0,
             max : 100,
             calculable : true,
@@ -281,6 +282,7 @@
                   normal:{
                     label:{show:true,
                       position:'top',
+                      formatter: '{b}',
                       textStyle: {
                         fontSize: 14
                       }
@@ -300,7 +302,8 @@
                   {name:'长春',value:40},
                   {name:'包头',value:30},
                   {name:'重庆',value:20},
-                  {name:'常州',value:10}
+                  {name:'常州',value:10},
+                  {name:'北京',value:1},
                 ]
               }
             }
