@@ -349,7 +349,7 @@ $.getJSON(uploadedDataURL, function(geoJson) {
       //鼠标移入是否显示省份/城市
       label: {
         emphasis: {
-          show: true
+          show: false
         }
       },
       roam: true,
