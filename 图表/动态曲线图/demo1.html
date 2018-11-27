@@ -37,7 +37,7 @@
 //    now = [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/');
     date.push(hour);
     data.push((Math.random() - 0.4) * 10 + data[data.length - 1]);
-    hour >= 24? hour = 0: hour++;
+    hour >= 23? hour = 0: hour++;
 
     if (shift) {
       date.shift();
